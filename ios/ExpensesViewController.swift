@@ -14,9 +14,12 @@ import Alamofire
 
   let tableView = UITableView()
   var safeArea: UILayoutGuide!
+  let segmentItems = ["All", "EUR", "GBP", "DKK"]
+  var segmentedControl: UISegmentedControl!
 
   let cellID = "cell"
-  var expenses: [Expense] = []
+  var expenses: [Expense] = [] // expenses fetched from server
+  var filteredExpenses: [Expense] = [] // expenses after being filtered (by default no filter!)
   var isLoadingMore = true
   var totalExpenses = 0
   
@@ -28,13 +31,25 @@ import Alamofire
   func setupViews() {
     view.backgroundColor = .white
     safeArea = view.layoutMarginsGuide
+    segmentedControl = UISegmentedControl(items: segmentItems)
+    view.addSubview(tableView)
+    view.addSubview(segmentedControl)
+    setupSegmentControl()
     setupTableView()
   }
   
+  func setupSegmentControl() {
+    segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+    segmentedControl.selectedSegmentIndex = 0
+    segmentedControl.addTarget(self, action: #selector(onSegmentChanged), for: .valueChanged)
+    segmentedControl.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
+    segmentedControl.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+    segmentedControl.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+  }
+  
   func setupTableView() {
-    view.addSubview(tableView)
     tableView.translatesAutoresizingMaskIntoConstraints = false
-    tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor).isActive = true
     tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
     tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
@@ -44,13 +59,17 @@ import Alamofire
     tableView.delegate = self
   }
   
+  @objc func onSegmentChanged(_ sender: UISegmentedControl) {
+    self.tableView.reloadData()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad();
     getExpenses(from: 0);
   }
   
   func getExpenses(from offset: Int) {
-    fetchExpenses(from: 0) {
+    fetchExpenses(from: offset) {
       response in
       guard let result = response else { print ("there is no data"); return }
       self.expenses.append(contentsOf: result.expenses);
@@ -78,7 +97,15 @@ import Alamofire
 extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return expenses.count
+    let segmentIndex = segmentedControl.selectedSegmentIndex
+    if segmentIndex == 0 {
+      self.filteredExpenses = self.expenses
+    } else {
+      self.filteredExpenses = expenses.filter {
+        $0.amount.currency.lowercased() == segmentItems[segmentIndex].lowercased()
+      }
+    }
+    return self.filteredExpenses.count
   }
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -91,13 +118,12 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    print(expenses[indexPath.row].merchant)
     tableView.deselectRow(at: indexPath, animated: true)
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellID)
-    let expense = expenses[indexPath.row]
+    let expense = self.filteredExpenses[indexPath.row]
     cell.textLabel?.text = expense.merchant
     cell.detailTextLabel?.text = "\(expense.amount.value) \(expense.amount.currency)"
     cell.accessoryType = .disclosureIndicator
