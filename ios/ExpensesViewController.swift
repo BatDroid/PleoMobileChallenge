@@ -29,6 +29,7 @@ import Alamofire
   }
   
   func setupViews() {
+    self.title = "Expenses"
     view.backgroundColor = .white
     safeArea = view.layoutMarginsGuide
     segmentedControl = UISegmentedControl(items: segmentItems)
@@ -119,6 +120,17 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
+    
+    do {
+      let jsonData = try JSONEncoder().encode(filteredExpenses[indexPath.row])
+      let jsonString = String(data: jsonData, encoding: .utf8)!
+      self.navigationController?.pushViewController(
+        ReactNativeViewController(moduleName: "PleoMobileChallenge", andInitialProperties:["expense": jsonString]),
+        animated: true
+      )
+    } catch {
+      print("Couldn't encode the object")
+    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

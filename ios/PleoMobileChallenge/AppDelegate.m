@@ -11,6 +11,8 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <ReactNativeBrownfield/ReactNativeBrownfield.h>
+#import <ReactNativeBrownfield/ReactNativeViewController.h>
 
 @implementation AppDelegate
 
@@ -20,6 +22,12 @@
   
   ExpensesViewController* rootViewController = [ExpensesViewController new];
   self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:rootViewController] ;
+  
+  ReactNativeBrownfield *reactNativeBrownfieldManager = [ReactNativeBrownfield shared];
+  reactNativeBrownfieldManager.entryFile = @"index";
+  [reactNativeBrownfieldManager startReactNative:^(void){
+    NSLog(@"React Native started");
+  }];
   
   [self.window makeKeyAndVisible];
   return YES;

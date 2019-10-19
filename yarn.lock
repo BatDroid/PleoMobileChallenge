@@ -647,6 +647,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@callstack/react-native-brownfield@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@callstack/react-native-brownfield/-/react-native-brownfield-0.0.3.tgz#e3aa92e66119b1741e2a985fb9125ab357ce95cf"
+  integrity sha512-Hu2hAgRp2ui4OPEiaERKk9crkmvv+tgbwZ/YCI772A9r1MAJivbsnSDSi8ZvHksvlVEhgEFlZrg8xL6QPbpq9Q==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
