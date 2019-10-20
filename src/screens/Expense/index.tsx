@@ -3,6 +3,7 @@ import {View, NativeModules} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
+import ReceiptsList from './ReceiptsList';
 import {ExpenseType} from 'src/redux/actions/expenses/types';
 import {ExpenseStoreType} from 'src/redux/reducers/expenses';
 import {
@@ -31,9 +32,7 @@ const Expense = (props: Props) => {
   const {currentExpense, setCommentExpense, isLoading, uploadReceipt} = props;
   if (!currentExpense) return <FullLoading />;
   const [comment, setComment] = useState('');
-  const receiptPath = useCameraPicker(
-    currentExpense.receipts.length > 0 ? currentExpense.receipts[0] : null,
-  );
+  const [receiptPath, setReceiptPath] = useCameraPicker(null);
   useEffect(() => {
     // for case of returning to native part and entring with different expense
     setComment(currentExpense.comment);
@@ -60,9 +59,12 @@ const Expense = (props: Props) => {
           NativeModules.CameraManager.takeImage();
         }}
         onUploadPressed={() => {
-          uploadReceipt(currentExpense.id, receiptPath);
+          uploadReceipt(currentExpense.id, receiptPath, () => {
+            setReceiptPath(null);
+          });
         }}
       />
+      <ReceiptsList data={currentExpense.receipts} />
     </View>
   );
 };

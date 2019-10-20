@@ -25,7 +25,9 @@ export default (props: Props) => {
   return (
     <View style={styles.root}>
       {imageAvailable && (
-        <Image style={styles.image} source={{uri: currentImagePath || ''}} />
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={{uri: currentImagePath || ''}} />
+        </View>
       )}
       <View style={styles.buttonContainer}>
         <Button title={takeTitle} onPress={onTakePressed} />
@@ -46,10 +48,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 30,
   },
-  image: {
-    width: width * 0.5,
-    height: width * 0.5,
+  imageContainer: {
     marginBottom: 20,
+    borderRadius: 20,
+    width: width * 0.25,
+    height: width * 0.25,
+    overflow: 'hidden',
+    alignSelf: "center",
+  },
+  image: {
+    width: '100%',
+    height: '100%',
     alignSelf: 'center',
   },
   buttonContainer: {

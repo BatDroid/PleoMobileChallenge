@@ -14,13 +14,17 @@ interface User {
   email: string;
 }
 
+export interface Receipt {
+  url: string;
+}
+
 export interface ExpenseType {
   id: string;
   date: string;
   merchant: string;
   comment: string;
   category: string;
-  receipts: [string];
+  receipts: Receipt[];
   user: User;
   amount: Amount;
   index: number;

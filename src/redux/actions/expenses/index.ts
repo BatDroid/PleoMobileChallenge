@@ -44,7 +44,7 @@ export function setCommentExpense(expenseId: string, comment: string) {
   };
 }
 
-export function uploadReceipt(expenseId: string, receiptPath: string) {
+export function uploadReceipt(expenseId: string, receiptPath: string, onUploaded: () => void) {
   return (dispatch: Dispatch) => {
     dispatch({
       type: UPDATE_EXPENSE_REQUEST,
@@ -62,11 +62,14 @@ export function uploadReceipt(expenseId: string, receiptPath: string) {
         },
       })
       .then(response => {
-        if (response && response.status === 200)
+        if (response && response.status === 200){
+          console.log(response.data);
           dispatch({
             type: UPDATE_EXPENSE_SUCCESS,
             currentExpense: response.data,
           });
+          onUploaded();
+        }
         else
           dispatch({
             type: UPDATE_EXPENSE_ERROR,
