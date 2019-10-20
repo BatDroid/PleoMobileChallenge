@@ -20,6 +20,8 @@
 		B2AD79868304A0489587BA97 /* libPods-PleoMobileChallenge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E19A99C969348F997B153E96 /* libPods-PleoMobileChallenge.a */; };
 		BB207AA6235A106800630887 /* ExpenseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB207AA5235A106800630887 /* ExpenseModel.swift */; };
 		BB207AA8235A19D500630887 /* URLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB207AA7235A19D500630887 /* URLS.swift */; };
+		BB9748B6235BB1060013DFBA /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9748B5235BB1060013DFBA /* CameraManager.swift */; };
+		BB9748B8235BB71E0013DFBA /* CameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BB9748B7235BB71E0013DFBA /* CameraManager.m */; };
 		BBE810792358D9130006B9D8 /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE810782358D9130006B9D8 /* ExpensesViewController.swift */; };
 		C8B218C20EAA388DAC74F317 /* libPods-PleoMobileChallenge-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C77035BB41F78B5F1DBE48EF /* libPods-PleoMobileChallenge-tvOSTests.a */; };
 		E607FF71B8B1789A2D5A53AB /* libPods-PleoMobileChallenge-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFEDBC7B28575C6140220EC /* libPods-PleoMobileChallenge-tvOS.a */; };
@@ -68,6 +70,8 @@
 		90DC241408F1C49DCA610C3D /* Pods-PleoMobileChallenge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PleoMobileChallenge.release.xcconfig"; path = "Pods/Target Support Files/Pods-PleoMobileChallenge/Pods-PleoMobileChallenge.release.xcconfig"; sourceTree = "<group>"; };
 		BB207AA5235A106800630887 /* ExpenseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseModel.swift; sourceTree = "<group>"; };
 		BB207AA7235A19D500630887 /* URLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLS.swift; sourceTree = "<group>"; };
+		BB9748B5235BB1060013DFBA /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		BB9748B7235BB71E0013DFBA /* CameraManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraManager.m; sourceTree = "<group>"; };
 		BBE810772358D9130006B9D8 /* PleoMobileChallenge-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PleoMobileChallenge-Bridging-Header.h"; sourceTree = "<group>"; };
 		BBE810782358D9130006B9D8 /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		C77035BB41F78B5F1DBE48EF /* libPods-PleoMobileChallenge-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PleoMobileChallenge-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +136,7 @@
 		13B07FAE1A68108700A75B9A /* PleoMobileChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				BB9748B4235BB0D70013DFBA /* Bridge */,
 				BB207AA4235A103600630887 /* Constants */,
 				BBE810772358D9130006B9D8 /* PleoMobileChallenge-Bridging-Header.h */,
 				BBE810752358D7BF0006B9D8 /* Screens */,
@@ -213,6 +218,15 @@
 				BB207AA7235A19D500630887 /* URLS.swift */,
 			);
 			name = Constants;
+			sourceTree = "<group>";
+		};
+		BB9748B4235BB0D70013DFBA /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				BB9748B5235BB1060013DFBA /* CameraManager.swift */,
+				BB9748B7235BB71E0013DFBA /* CameraManager.m */,
+			);
+			path = Bridge;
 			sourceTree = "<group>";
 		};
 		BBE810752358D7BF0006B9D8 /* Screens */ = {
@@ -327,7 +341,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = LGFRJ4GYHQ;
 						LastSwiftMigration = 1020;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -569,7 +585,9 @@
 				BB207AA8235A19D500630887 /* URLS.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				BB9748B8235BB71E0013DFBA /* CameraManager.m in Sources */,
 				BB207AA6235A106800630887 /* ExpenseModel.swift in Sources */,
+				BB9748B6235BB1060013DFBA /* CameraManager.swift in Sources */,
 				BBE810792358D9130006B9D8 /* ExpensesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -670,8 +688,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = LGFRJ4GYHQ;
 				INFOPLIST_FILE = PleoMobileChallenge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -681,6 +702,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = PleoMobileChallenge;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "PleoMobileChallenge-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -694,7 +716,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LGFRJ4GYHQ;
 				INFOPLIST_FILE = PleoMobileChallenge/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -704,6 +729,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = PleoMobileChallenge;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "PleoMobileChallenge-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

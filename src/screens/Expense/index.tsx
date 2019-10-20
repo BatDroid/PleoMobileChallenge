@@ -1,14 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {View} from 'react-native';
+import {View, NativeModules} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {ExpenseType} from 'src/redux/actions/expenses/types';
 import {ExpenseStoreType} from 'src/redux/reducers/expenses';
-import {setCommentExpense} from '../../redux/actions/expenses/index';
+import {
+  setCommentExpense,
+  uploadReceipt,
+} from '../../redux/actions/expenses/index';
 import FormTextArea from '../../components/FormTextArea';
 import FullLoading from '../../components/FullLoading';
 import LoadingButton from '../../components/LoadingButton';
+import ImageTaker from '../../components/ImageTaker';
+import useCameraPicker from '../../hooks/useCameraPicker';
 
 type NavigationParmas = {
   onSavePressed: () => void;
@@ -19,16 +24,21 @@ interface Props {
   isLoading: boolean;
   navigation: NavigationType;
   setCommentExpense: Function;
+  uploadReceipt: Function;
 }
 
 const Expense = (props: Props) => {
-  const {currentExpense, setCommentExpense, isLoading} = props;
+  const {currentExpense, setCommentExpense, isLoading, uploadReceipt} = props;
   if (!currentExpense) return <FullLoading />;
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
+  const receiptPath = useCameraPicker(
+    currentExpense.receipts.length > 0 ? currentExpense.receipts[0] : null,
+  );
   useEffect(() => {
     // for case of returning to native part and entring with different expense
-    setComment(currentExpense.comment)
-  }, [currentExpense])
+    setComment(currentExpense.comment);
+  }, [currentExpense]);
+
   return (
     <View>
       <FormTextArea
@@ -36,18 +46,34 @@ const Expense = (props: Props) => {
         value={comment}
         onChangeText={v => setComment(v)}
       />
-      <LoadingButton title="Save" isLoading={isLoading} onPress={() => {
-        setCommentExpense(currentExpense.id, comment)
-      }}/>
+      <LoadingButton
+        title="Save"
+        isLoading={isLoading}
+        onPress={() => {
+          setCommentExpense(currentExpense.id, comment);
+        }}
+      />
+      <ImageTaker
+        currentImagePath={receiptPath}
+        isLoadingUpload={isLoading}
+        onTakePressed={() => {
+          NativeModules.CameraManager.takeImage();
+        }}
+        onUploadPressed={() => {
+          uploadReceipt(currentExpense.id, receiptPath);
+        }}
+      />
     </View>
   );
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return bindActionCreators({setCommentExpense}, dispatch);
+  return bindActionCreators({setCommentExpense, uploadReceipt}, dispatch);
 }
 
-function mapStateToProps({expenses: {currentExpense, isLoading}}: ExpenseStoreType) {
+function mapStateToProps({
+  expenses: {currentExpense, isLoading},
+}: ExpenseStoreType) {
   return {
     currentExpense,
     isLoading,

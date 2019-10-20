@@ -1,7 +1,7 @@
 export const SET_CURRENT_EXPENSE = 'SET_CURRENT_EXPENSE';
-export const SET_COMMENT_REQUEST = 'SET_COMMENT_REQUEST';
-export const SET_COMMENT_SUCCESS = 'SET_COMMENT_SUCCESS';
-export const SET_COMMENT_ERROR = 'SET_COMMENT_ERROR';
+export const UPDATE_EXPENSE_REQUEST = 'UPDATE_EXPENSE_REQUEST';
+export const UPDATE_EXPENSE_SUCCESS = 'UPDATE_EXPENSE_SUCCESS';
+export const UPDATE_EXPENSE_ERROR = 'UPDATE_EXPENSE_ERROR';
 
 interface Amount {
   value: string;
@@ -33,7 +33,7 @@ export interface ExpensePayloadType {
 export interface ExpenseActions extends ExpensePayloadType {
   type:
     | typeof SET_CURRENT_EXPENSE
-    | typeof SET_COMMENT_SUCCESS
-    | typeof SET_COMMENT_REQUEST
-    | typeof SET_COMMENT_ERROR;
+    | typeof UPDATE_EXPENSE_SUCCESS
+    | typeof UPDATE_EXPENSE_REQUEST
+    | typeof UPDATE_EXPENSE_ERROR;
 }

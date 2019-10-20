@@ -3,3 +3,4 @@
 //
 #import <ReactNativeBrownfield/ReactNativeBrownfield.h>
 #import <ReactNativeBrownfield/ReactNativeViewController.h>
+#import "React/RCTEventEmitter.h"

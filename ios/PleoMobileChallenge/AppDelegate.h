@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <ReactNativeBrownfield/ReactNativeBrownfield.h>
 #import <ReactNativeBrownfield/ReactNativeViewController.h>
+#import "React/RCTEventEmitter.h"
+#import "React/RCTBridgeModule.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, RCTBridgeDelegate>
 

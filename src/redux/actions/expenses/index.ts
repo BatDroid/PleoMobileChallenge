@@ -2,12 +2,12 @@ import {Dispatch} from 'redux';
 import {
   ExpenseType,
   SET_CURRENT_EXPENSE,
-  SET_COMMENT_REQUEST,
-  SET_COMMENT_SUCCESS,
-  SET_COMMENT_ERROR,
+  UPDATE_EXPENSE_REQUEST,
+  UPDATE_EXPENSE_SUCCESS,
+  UPDATE_EXPENSE_ERROR,
 } from './types';
 import api from '../../../config/api';
-import {getUpdateExpenseUrl} from '../../../config/api/routes';
+import {getUpdateExpenseUrl, getUploadReceiptUrl} from '../../../config/api/routes';
 
 export function setCurrentExpense(expense: ExpenseType, dispatch: Dispatch) {
   dispatch({
@@ -19,25 +19,63 @@ export function setCurrentExpense(expense: ExpenseType, dispatch: Dispatch) {
 export function setCommentExpense(expenseId: string, comment: string) {
   return (dispatch: Dispatch) => {
     dispatch({
-      type: SET_COMMENT_REQUEST,
+      type: UPDATE_EXPENSE_REQUEST,
     });
     api
       .post(getUpdateExpenseUrl(expenseId), {comment})
       .then(response => {
         if (response && response.status === 200)
           dispatch({
-            type: SET_COMMENT_SUCCESS,
+            type: UPDATE_EXPENSE_SUCCESS,
             currentExpense: response.data,
           });
         else
           dispatch({
-            type: SET_COMMENT_ERROR,
+            type: UPDATE_EXPENSE_ERROR,
             errorStatus: response.status,
           });
       })
       .catch(() => {
         dispatch({
-          type: SET_COMMENT_ERROR,
+          type: UPDATE_EXPENSE_ERROR,
+          errorStatus: 500,
+        });
+      });
+  };
+}
+
+export function uploadReceipt(expenseId: string, receiptPath: string) {
+  return (dispatch: Dispatch) => {
+    dispatch({
+      type: UPDATE_EXPENSE_REQUEST,
+    });
+    let formData = new FormData();
+    formData.append('receipt', {
+      uri: receiptPath,
+      type: 'image/jpeg',
+      name: 'receipt',
+    });
+    api
+      .post(getUploadReceiptUrl(expenseId), formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        if (response && response.status === 200)
+          dispatch({
+            type: UPDATE_EXPENSE_SUCCESS,
+            currentExpense: response.data,
+          });
+        else
+          dispatch({
+            type: UPDATE_EXPENSE_ERROR,
+            errorStatus: response.status,
+          });
+      })
+      .catch((e) => {
+        dispatch({
+          type: UPDATE_EXPENSE_ERROR,
           errorStatus: 500,
         });
       });

@@ -2,9 +2,9 @@ import {
   ExpenseActions,
   ExpenseType,
   SET_CURRENT_EXPENSE,
-  SET_COMMENT_SUCCESS,
-  SET_COMMENT_REQUEST,
-  SET_COMMENT_ERROR,
+  UPDATE_EXPENSE_SUCCESS,
+  UPDATE_EXPENSE_REQUEST,
+  UPDATE_EXPENSE_ERROR,
 } from '../actions/expenses/types';
 
 export function expenseReducer(
@@ -13,18 +13,18 @@ export function expenseReducer(
 ) {
   switch (action.type) {
     case SET_CURRENT_EXPENSE:
-    case SET_COMMENT_SUCCESS:
+    case UPDATE_EXPENSE_SUCCESS:
       return {
         ...state,
         currentExpense: action.currentExpense,
         isLoading: false,
       };
-    case SET_COMMENT_REQUEST:
+    case UPDATE_EXPENSE_REQUEST:
       return {
         ...state,
         isLoading: true,
       };
-    case SET_COMMENT_ERROR:
+    case UPDATE_EXPENSE_ERROR:
       return {
         ...state,
         isLoading: false,
