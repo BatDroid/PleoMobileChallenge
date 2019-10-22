@@ -10,12 +10,13 @@ export default function useCameraPicker(
   let [imagePath, setImagePath] = useState(initialImage);
   useEffect(() => {
     const cameraEvent = new NativeEventEmitter(NativeModules.CameraManager);
-    cameraEvent.addListener('onImagePicked', res => {
+    const onImagePicked = (res: {image: string}) => {
       if (res && res.image) {
         setImagePath(res.image);
       }
-    });
-    return () => cameraEvent.removeAllListeners();
+    };
+    cameraEvent.addListener('onImagePicked', onImagePicked);
+    return () => cameraEvent.removeListener('onImagePicked', onImagePicked);
   }, []);
   return [imagePath, setImagePath];
 }
